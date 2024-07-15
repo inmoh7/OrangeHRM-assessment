@@ -1,47 +1,48 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script lang="ts" setup>
+import commentsSection from '@/components/commentsSection.vue'
+import post from './components/post.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <main class="container-main">
+    <div>
+      <section class="container-post">
+        <post />
+      </section>
+      <section class="container-comments">
+        <commentsSection />
+      </section>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
   </main>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<style lang="scss" scoped>
+.container-main {
+  min-height: 100vh;
+  background-color: whitesmoke;
+  max-width: 55vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 20px;
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+  .container-post {
+    padding: 24px;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  .container-comments {
+    padding: 0 24px;
   }
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+@media (max-width: 1200px) {
+  .container-main {
+    max-width: 70vw;
+  }
+}
+
+@media (max-width: 760px) {
+  .container-main {
+    max-width: 96vw;
   }
 }
 </style>
