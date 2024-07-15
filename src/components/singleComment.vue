@@ -3,7 +3,7 @@
     <!-- comment container -->
     <section class="comment-header-container">
       <div class="comment-header">
-        <img class="avatar-image" :src="user.profileImage" alt="" />
+        <img class="avatar-image" :src="user.profileImage" :alt="`profile image of ${user.name}`" />
         <div class="user-name">{{ user.name }}</div>
         <div class="posted-time">{{ moment(comment.postedDate).fromNow() }}</div>
       </div>

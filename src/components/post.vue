@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="post-header">
-      <img class="avatar-image" src="https://avatar.iran.liara.run/public/40" alt="" />
+      <img class="avatar-image" src="https://avatar.iran.liara.run/public/40" alt="profile-image" />
       <div>
         <div class="user-name">James Bond</div>
         <div class="posted-time">3 hours ago</div>
