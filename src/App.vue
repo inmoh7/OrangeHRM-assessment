@@ -1,14 +1,12 @@
 <script lang="ts" setup>
 import commentsSection from '@/components/commentsSection.vue'
-import post from './components/post.vue'
+import samplePost from '@/components/samplePost.vue'
 </script>
 
 <template>
   <main class="container-main">
     <div>
-      <section class="container-post">
-        <post />
-      </section>
+      <section class="container-post"><samplePost /></section>
       <section class="container-comments">
         <commentsSection />
       </section>

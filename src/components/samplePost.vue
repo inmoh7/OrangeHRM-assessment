@@ -31,7 +31,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import upVote from './icons/iUpVote.vue'
 import downVote from './icons/iDownVote.vue'
 import comment from './icons/iComment.vue'
