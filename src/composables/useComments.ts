@@ -5,11 +5,14 @@ import { ref } from 'vue'
 export const uesComments = (initialComments: Comment[]) => {
   const comments = ref<Comment[]>(initialComments)
 
-  // helper functions
+  // ----------------- helper functions --------------------------------
+
+  //fucntion to save comment data to browser local storage
   const saveToLocal = (comments: Comment[]) => {
     localStorage.setItem('comments', JSON.stringify(comments))
   }
 
+  // helper function to handle the insertion of new comments and replies recursively
   const insertNode = (
     commentId: string,
     newComment: Comment,
@@ -68,7 +71,9 @@ export const uesComments = (initialComments: Comment[]) => {
 
   const downvoteNode = (commentId: string, commentTree: Comment[]): Comment[] => {
     return commentTree.map((node: Comment) => {
+      //check for id match of the node and triggered comment id
       if (commentId === node.id) {
+        //conditions for checking current voting status on the comment by the current user
         if (node.voteStatus === 'upvoted') {
           return {
             ...node,
@@ -99,7 +104,9 @@ export const uesComments = (initialComments: Comment[]) => {
     })
   }
 
+  // fucntion to handle sorting of the comments and replies recursively based on the sort type
   const sortNodes = (sortType: string): Comment[] => {
+    // comparision helper function
     const sortFn = (a: Comment, b: Comment) => {
       if (sortType === 'newest') {
         return new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()
@@ -121,11 +128,11 @@ export const uesComments = (initialComments: Comment[]) => {
     return sortRecursively(comments.value)
   }
 
-  // commets operations
+  //----------------------------- commet operations -------------------------------------
   const insertComment = (commentId: string | undefined, commentContent: string) => {
     const newComment: Comment = {
       id: uuid(),
-      userId: 2,
+      userId: 2, //current user is set to 2
       content: commentContent,
       votes: 0,
       voteStatus: null,

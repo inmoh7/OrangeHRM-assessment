@@ -1,4 +1,5 @@
 <template>
+  <!-- main container -->
   <main>
     <!-- comment container -->
     <section class="comment-header-container">
@@ -85,8 +86,12 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
 import moment from 'moment'
+
+//data imports
 import type { SingleCommentProps } from '@/types/types'
 import { users } from '@/data/users'
+
+// icon imports
 import iUpVote from './icons/iUpVote.vue'
 import iUpVoteFilled from './icons/iUpVoteFilled.vue'
 import iDownVote from './icons/iDownVote.vue'
@@ -104,11 +109,13 @@ const toggleReply = ref(false)
 const showReplies = ref(true)
 
 onMounted(() => {
+  // check for the replies should be initially loaded or not
   if (comment.replies.length > 10) {
     showReplies.value = false
   }
 })
 
+//computed property to handle input character limitations
 const trimmedInput = computed({
   get() {
     return inputComment.value
@@ -138,7 +145,7 @@ const handleReplySubmit = (commenId: string) => {
   showReplies.value = true
 }
 
-// Emit events propagatation for nested comments
+// --- Emit events propagatations for nested comments -----
 const emitReplySubmitted = (commentId: string, replyContent: string) => {
   emit('replySubmitted', commentId, replyContent)
 }
@@ -155,6 +162,7 @@ const emitDownVoted = (commentId: string) => {
 <style lang="scss" scoped>
 main {
   padding-top: 10px;
+  overflow-x: auto;
 
   .comment-header-container {
     .comment-header {
@@ -312,6 +320,13 @@ main {
 
     .nested-comments {
       margin-left: 36px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .shifted-container {
+      margin-left: 18px;
+      padding-left: 10px;
     }
   }
 }

@@ -50,6 +50,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
+
 import singleComment from '@/components/singleComment.vue'
 import { uesComments } from '@/composables/useComments'
 import { comments } from '@/data/comments'
@@ -58,6 +59,7 @@ const inputComment = ref('')
 const errorMessage = ref('')
 const selectedSort = ref('newest')
 let initComments = comments
+
 const {
   comments: allComments,
   insertComment,
@@ -67,12 +69,14 @@ const {
 } = uesComments(initComments)
 
 onMounted(() => {
+  //check if comment data available in the local storage
   const savedCommentsJSON = localStorage.getItem('comments')
   if (savedCommentsJSON) {
     allComments.value = JSON.parse(savedCommentsJSON)
   }
 })
 
+//calculated propety for character limit validation
 const trimmedInput = computed({
   get() {
     return inputComment.value
@@ -99,6 +103,7 @@ const handleCommentSubmit = () => {
   }
 
   insertComment(undefined, inputComment.value)
+  inputComment.value = ''
 }
 
 const handleReplySubmit = (commenId: string, commentContent: string) => {

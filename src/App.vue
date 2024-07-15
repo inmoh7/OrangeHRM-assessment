@@ -18,7 +18,7 @@ import samplePost from '@/components/samplePost.vue'
 .container-main {
   min-height: 100vh;
   background-color: whitesmoke;
-  max-width: 55vw;
+  max-width: 64vw;
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 20px;

@@ -16,6 +16,7 @@
       </p>
     </div>
     <div class="reactions-container">
+      <!-- values are hard coded for demonstration purpose -->
       <div class="container-upvote">
         <button class="btn-upvote"><upVote /></button>
         <div>10</div>
