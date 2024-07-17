@@ -169,6 +169,7 @@ main {
     .comment-content {
       margin-bottom: 10px;
       color: #444;
+      overflow-wrap: break-word;
     }
     .reactions-container {
       margin-top: 6px;
