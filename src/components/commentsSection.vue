@@ -2,21 +2,12 @@
   <main>
     <!-- comment input -->
     <section class="container-input">
-      <textarea
-        name="comment"
-        class="input-comment"
-        rows="3"
-        placeholder="What you want to say?"
-        v-model="inputComment"
-        @input="handleInputChange"
-      ></textarea>
-      <div class="container-validations">
-        <div class="character-count">{{ inputComment.length }}/1000 characters</div>
-        <div v-if="errorMessage" class="validation-error">{{ errorMessage }}</div>
-      </div>
-      <div class="actions">
-        <button class="btn-submit" @click="handleCommentSubmit">Comment</button>
-      </div>
+      <InputText
+        v-model:input-comment="inputComment"
+        v-model:error-message="errorMessage"
+        @on-submit="handleCommentSubmit"
+        type="comment"
+      />
     </section>
 
     <!-- sorting options -->
@@ -49,16 +40,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import InputText from './inputText.vue'
 
 import singleComment from '@/components/singleComment.vue'
 import { uesComments } from '@/composables/useComments'
 import { comments } from '@/data/comments'
 
+const selectedSort = ref('newest')
 const inputComment = ref('')
 const errorMessage = ref('')
-const selectedSort = ref('newest')
-let initComments = comments
 
 const {
   comments: allComments,
@@ -66,7 +57,7 @@ const {
   commentUpVote,
   commentDownVote,
   sortComments
-} = uesComments(initComments)
+} = uesComments(comments)
 
 onMounted(() => {
   //check if comment data available in the local storage
@@ -75,25 +66,6 @@ onMounted(() => {
     allComments.value = JSON.parse(savedCommentsJSON)
   }
 })
-
-//calculated propety for character limit validation
-const trimmedInput = computed({
-  get() {
-    return inputComment.value
-  },
-  set(value) {
-    if (value.length > 1000) {
-      inputComment.value = value.slice(0, 1000)
-    } else {
-      inputComment.value = value
-    }
-  }
-})
-
-const handleInputChange = (e: Event) => {
-  const target = e.target as HTMLTextAreaElement
-  trimmedInput.value = target.value
-}
 
 const handleCommentSubmit = () => {
   errorMessage.value = ''
@@ -158,19 +130,6 @@ const handleSort = () => {
     display: flex;
     justify-content: end;
     margin: 8px 0;
-    .btn-submit {
-      background-color: tomato;
-      color: white;
-      font-weight: 600;
-      border: none;
-      padding: 6px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .btn-submit:hover {
-      opacity: 0.9;
-    }
   }
 }
 .container-sort {

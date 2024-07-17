@@ -51,22 +51,14 @@
 
       <!-- reply container -->
       <section v-if="toggleReply" class="reply-input-container">
-        <textarea
-          name="comment"
-          class="input-comment"
-          rows="3"
-          placeholder="What you want to say?"
-          v-model="inputComment"
-          @input="handleInputChange"
-        ></textarea>
-        <div class="container-validations">
-          <div class="character-count">{{ inputComment.length }}/1000 characters</div>
-          <div v-if="errorMessage" class="validation-error">{{ errorMessage }}</div>
-        </div>
-        <div class="actions">
+        <inputText
+          v-model:input-comment="inputComment"
+          v-model:error-message="errorMessage"
+          @on-submit="handleReplySubmit(comment.id)"
+          type="reply"
+        >
           <button class="btn-cancel" @click="toggleReply = !toggleReply">Cancel</button>
-          <button class="btn-submit" @click="handleReplySubmit(comment.id)">Reply</button>
-        </div>
+        </inputText>
       </section>
       <!-- all nested comments -->
       <section v-if="comment.replies && showReplies" class="nested-comments">
@@ -84,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import moment from 'moment'
 
 //data imports
@@ -97,6 +89,7 @@ import iUpVoteFilled from './icons/iUpVoteFilled.vue'
 import iDownVote from './icons/iDownVote.vue'
 import iDownVoteFilled from './icons/iDownVoteFilled.vue'
 import iComment from './icons/iComment.vue'
+import inputText from './inputText.vue'
 
 const { comment } = defineProps<SingleCommentProps>()
 const emit = defineEmits(['upVoted', 'downVoted', 'replySubmitted'])
@@ -109,38 +102,19 @@ const toggleReply = ref(false)
 const showReplies = ref(true)
 
 onMounted(() => {
-  // check for the replies should be initially loaded or not
+  // check if the replies should be initially loaded or not
   if (comment.replies.length > 10) {
     showReplies.value = false
   }
 })
 
-//computed property to handle input character limitations
-const trimmedInput = computed({
-  get() {
-    return inputComment.value
-  },
-  set(value) {
-    if (value.length > 1000) {
-      inputComment.value = value.slice(0, 1000)
-    } else {
-      inputComment.value = value
-    }
-  }
-})
-
-const handleInputChange = (e: Event) => {
-  const target = e.target as HTMLTextAreaElement
-  trimmedInput.value = target.value
-}
-
-const handleReplySubmit = (commenId: string) => {
+const handleReplySubmit = (commentId: string) => {
   errorMessage.value = ''
   if (!inputComment.value) {
     errorMessage.value = 'Please enter something to add...'
     return
   }
-  emit('replySubmitted', commenId, inputComment.value)
+  emit('replySubmitted', commentId, inputComment.value)
   inputComment.value = ''
   showReplies.value = true
 }
@@ -252,69 +226,21 @@ main {
     .reply-input-container {
       margin: 10px 0;
 
-      .input-comment {
-        width: 100%;
-        max-width: 100%;
-        min-width: 100%;
-        border-radius: 6px;
-        padding: 4px 8px;
-        border: solid 0.5px #666;
-        font-size: small;
+      .btn-cancel {
+        background-color: white;
+        color: tomato;
+        font-weight: 500;
+        border: 1px solid tomato;
+        padding: 6px 8px;
+        border-radius: 4px;
+        cursor: pointer;
       }
 
-      .input-comment:hover {
-        box-shadow: 0 0 5pt 0.5pt #d3d3d3;
-      }
-      .input-comment:focus {
-        box-shadow: 0 0 5pt 2pt #d3d3d3;
-        outline-width: 0px;
-      }
-
-      .container-validations {
-        margin-top: 4px;
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-
-        .validation-error {
-          color: red;
-        }
-      }
-
-      .actions {
-        display: flex;
-        justify-content: end;
-        gap: 4px;
-        margin: 8px 0;
-        .btn-cancel {
-          background-color: white;
-          color: tomato;
-          font-weight: 500;
-          border: 1px solid tomato;
-          padding: 6px 8px;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-
-        .btn-cancel:hover {
-          background-color: tomato;
-          color: white;
-          border-color: white;
-          opacity: 0.8;
-        }
-        .btn-submit {
-          background-color: tomato;
-          color: white;
-          font-weight: 600;
-          border: none;
-          padding: 6px 8px;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-
-        .btn-submit:hover {
-          opacity: 0.9;
-        }
+      .btn-cancel:hover {
+        background-color: tomato;
+        color: white;
+        border-color: white;
+        opacity: 0.8;
       }
     }
 

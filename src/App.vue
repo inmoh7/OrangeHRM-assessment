@@ -6,7 +6,9 @@ import samplePost from '@/components/samplePost.vue'
 <template>
   <main class="container-main">
     <div>
-      <section class="container-post"><samplePost /></section>
+      <section class="container-post">
+        <samplePost />
+      </section>
       <section class="container-comments">
         <commentsSection />
       </section>
