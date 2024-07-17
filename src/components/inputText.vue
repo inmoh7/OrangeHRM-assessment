@@ -27,10 +27,10 @@ const { type } = defineProps<{ type: string }>()
 defineEmits(['onSubmit'])
 
 watch(inputComment, (newValue, oldValue) => {
-  if ((newValue ?? '').length > 10) {
+  if ((newValue ?? '').length > 1000) {
     inputComment.value = oldValue
     errorMessage.value = 'Character limit exceeded...'
-  } else if ((newValue ?? '').length < 10) {
+  } else if ((newValue ?? '').length < 1000) {
     errorMessage.value = ''
   }
 })
